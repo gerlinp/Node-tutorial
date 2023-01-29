@@ -1,16 +1,19 @@
-const express = require('express');
-const dotenv = require('dotenv');
+const express = require('express'); 
+const dotenv = require('dotenv'); 
 const connectDB = require('./config/db')
 const logger = require('./utils/logger')
-const user = require('./routes/user')
+const user = require('./routes/user');
+const bodyParser = require('body-parser')
 
-dotenv.config({ path: './config/config.env'})
+dotenv.config({ path: './config/config.env' })
 
-connectDB();
+connectDB(); 
 
-const app = express();
+const app = express(); 
 
-const PORT = process.env.PORT || 5001;
+app.use(bodyParser.json())
+
+const PORT = process.env.PORT || 5001; 
 
 app.use(logger)
 app.use('/user', user)
@@ -22,4 +25,4 @@ const server = app.listen(PORT, () => {
 process.on('unhandledRejection', (err) => {
     console.log(`Error: ${err.message}`)
     server.close(() => process.exit(1))
-}) 
+})
